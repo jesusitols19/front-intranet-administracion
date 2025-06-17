@@ -1,0 +1,47 @@
+
+<div class="container my-4">
+    <div class="my-4">
+        <p class="tituloI"><strong>{{ titulo }}</strong></p>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm text-center">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOMBRE</th>
+                        <th>APELLIDOS</th>
+                        <th>TIPO DE SERVICIO</th>
+                        <th>FECHA REGISTRO</th>
+                        <th>VER PDF</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (solicitados of solicitados; track $index) {
+                        <tr>
+                            <td>{{solicitados.id_ServicioSolicitado}}</td>
+                            <td>{{solicitados.nombre}}</td>
+                            <td>{{solicitados.apellidos}}</td>
+                            <td>{{solicitados.tipo_servicio}}</td>
+                            <td>{{solicitados.fecha_registro | date: 'dd/MM/yyyy' }}</td>
+                            <td>
+                                <button 
+                                    class="btn btnBgColor btn-sm mx-1 btn-borde-verde" 
+                                    title="Descargar cv PDF" 
+                                    (click)="descargarCV(solicitados.pdf)">
+                                    Descargar
+                                </button>
+                            </td>  
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+            @if (solicitados.length ===0) {
+                <div class="text-center">
+                    <h2>No hay Servicios solicitados para mostrar.</h2>
+                </div>
+            }
+    </div>
+</div>

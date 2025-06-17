@@ -1,0 +1,38 @@
+
+<div class="container my-4">
+    <div class="my-4">
+        <p class="tituloI"><strong>{{ titulo }}</strong></p>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm text-center">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>NOMBRE</th> 
+                        <th>APELLIDOS</th>
+                        <th>TIPO DE SERVICIO</th>
+                        <th>REALIZADOS</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (topPostulantes of topPostulantes; track $index) {
+                        <tr>
+                            <td>{{topPostulantes.id_top_especialistas}}</td>
+                            <td>{{topPostulantes.nombre}}</td>
+                            <td>{{topPostulantes.apellidos}}</td>
+                            <td>{{topPostulantes.tipo_servicio}}</td>
+                            <td>{{topPostulantes.realizados}}</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @if (topPostulantes.length ===0) {
+            <div class="text-center">
+            <h2>No hay Servicios solicitados para mostrar.</h2>
+        </div>
+            }
+    </div>
+</div>

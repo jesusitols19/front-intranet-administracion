@@ -1,0 +1,103 @@
+.datos-card {
+  max-width: 400px;
+  margin: 0 auto;
+  background: #f5f5fb;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.datos-avatar {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.datos-avatar img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+}
+
+.datos-info p {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0.8rem 0;
+}
+
+.datos-info input {
+  border: none;
+  background: transparent;
+  border-bottom: 1px solid #ccc;
+  padding: 4px 8px;
+  flex: 1;
+  font-family: inherit;
+}
+
+.datos-info input[readonly] {
+  background-color: transparent;
+  border: none;
+  color: #333;
+}
+
+.boton-editar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.btn-guardar {
+  padding: 8px 16px;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--primary-main);
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-guardar:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.btn-cancelar {
+  padding: 8px 16px;
+  border: none;
+  background-color: var(--cancel-color);
+  color: #333;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-cancelar:hover {
+  background-color: var(--cancel-color-hover);
+}
+
+@media (max-width: 480px) {
+  .datos-card {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .datos-avatar img {
+    width: 70px;
+    height: 70px;
+  }
+
+  .datos-info p {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .datos-info input {
+    width: 100%;
+  }
+}

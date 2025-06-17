@@ -1,0 +1,43 @@
+<div class="main-bg">
+  <div class="login-wrapper row m-0">
+    <!-- Imagen lado izquierdo -->
+    <div class="img-login col-12 col-lg-6 col-md-6 text-center">
+      <img src="/Images/Bienvenido.png" alt="Logo" class="img-fluid mb-3" />
+    </div>
+
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login100-form validate-form col-12 col-lg-6 col-md-6 login-form-container">
+      <div class="row justify-content-center">
+        <div class="text-center mb-4">
+          <img src="/Images/logoCompleto.png" alt="Logo" class="img-fluid py-3" style="max-width: 200px;" />
+          <h3 class="fw-bold text-primary">LOGIN</h3>
+        </div>
+
+
+        <div class="wrap-input100 col-12 mb-3">
+          <input type="text" formControlName="ADM_USUARIO" class="input100" placeholder="Usuario" />
+          <span class="symbol-input100"><i class="fa fa-user"></i></span>
+        </div>
+
+
+        <div class="wrap-input100 col-12 mb-3 position-relative">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            formControlName="ADM_CONTRASENIA"
+            class="input100"
+            placeholder="Contraseña"
+          />
+          <span class="symbol-input100"><i class="fa fa-lock"></i></span>
+          <span class="iconEye position-absolute end-0 top-50 translate-middle-y pe-3" (click)="togglePassword()" style="cursor: pointer;">
+            <i [class]="showPassword ? 'fa fa-eye' : 'fa fa-eye-slash'"></i>
+          </span>
+        </div>
+
+
+        <div class="col-12 mt-3 py-3 text-center">
+          <button type="submit" class="login100-form-btn">Iniciar sesión</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

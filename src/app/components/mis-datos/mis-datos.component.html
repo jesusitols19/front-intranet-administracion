@@ -1,0 +1,47 @@
+<div class="container my-4">
+  <div class="my-4">
+    <p class="tituloI"><strong>{{ titulo }}</strong></p>
+  </div>
+
+  <div class="datos-card ">
+    <div class="datos-avatar">
+      <img src="/Images/image.png" alt="Avatar del usuario">
+    </div>
+
+    <form [formGroup]="datosForm">
+      <div class="datos-info">
+        <p>
+          <i class="fa fa-user"></i>
+          <input type="text" formControlName="nombre" [readonly]="!editando">
+        </p>
+        <p>
+          <i class="fa fa-phone"></i>
+          <input type="text" formControlName="telefono" [readonly]="!editando">
+        </p>
+        <p>
+          <i class="fa fa-envelope"></i>
+          <input type="email" formControlName="email" [readonly]="!editando">
+        </p>
+        <p>
+          <i class="fa fa-id-card"></i>
+          <input type="text" formControlName="dni" readonly>
+        </p>
+        <p>
+          <i class="fa fa-calendar"></i>
+          <input type="date" formControlName="fechaNacimiento" readonly>
+        </p>
+      </div>
+
+      <div class="boton-editar">
+        @if (editando) {
+        <button type="button" class="btn-guardar" (click)="toggleEditar()">Guardar</button>
+        <button type="button" class="btn-cancelar" (click)="cancelarEdicion()">Cancelar</button>
+        } @else {
+        <button type="button" class="btn-guardar" (click)="toggleEditar()">Editar</button>
+        }
+      </div>
+
+    </form>
+  </div>
+
+</div>

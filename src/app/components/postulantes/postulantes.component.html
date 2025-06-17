@@ -1,0 +1,61 @@
+
+<div class="container my-4">
+    <div class="my-4">
+        <p class="tituloI"><strong>{{ titulo }}</strong></p>
+    </div>
+
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-striped table-hover table-sm text-center">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>USUARIO</th>
+                        <th>NOMBRES</th>
+                        <th>APELLIDOS</th>
+                        <th>CORREO</th>
+                        <th>CELULAR</th>
+                        <th>DNI</th>
+                        <th>ACCIONES</th>
+                        <th>VER PDF</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (postulante  of postulante; track $index) {
+                        <tr>
+                            <td>{{ postulante.id }}</td>
+                            <td>{{ postulante.usuario }}</td>
+                            <td>{{ postulante.nombres }}</td>
+                            <td>{{ postulante.apellidos }}</td>
+                            
+                            <td>{{ postulante.correo }}</td>
+                            <td>{{ postulante.celular }}</td>
+                            <td>{{ postulante.dni}}</td>
+                            <td>
+                                <button class="btn btn-success btn-sm mx-1" title="Aceptar" (click)="aceptarPostulante(postulante.id)">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm mx-1" title="Eliminar" (click)="eliminarPostulante(postulante.id)">
+                                    <i class="fa fa-x"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button 
+                                    class="btn btnBgColor btn-sm mx-1 btn-borde-verde" 
+                                    title="Descargar cv PDF" 
+                                    (click)="descargarCV(postulante.cv_ruta)">
+                                    Descargar
+                                </button>
+                            </td>  
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+            @if (postulante.length ===0) {
+                <div class="text-center">
+                    <h2>No hay Postulantes para mostrar.</h2>
+                </div>
+            }
+    </div>
+</div>
