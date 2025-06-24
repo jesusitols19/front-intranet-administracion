@@ -1,0 +1,77 @@
+<div class="pagos-admin container py-4">
+  <h2 class="mb-4">💸 Gestión de Pagos</h2>
+
+  <!-- Filtros -->
+  <form class="row g-3 mb-4">
+    <div class="col-md-4">
+      <label for="fechaInicio" class="form-label">Fecha inicio</label>
+      <input type="date" class="form-control" [formControl]="fechaInicio">
+    </div>
+    <div class="col-md-4">
+      <label for="fechaFin" class="form-label">Fecha fin</label>
+      <input type="date" class="form-control" [formControl]="fechaFin">
+    </div>
+    <div class="col-md-4">
+      <label for="estado" class="form-label">Estado</label>
+      <select class="form-select" [formControl]="estado">
+        <option value="">Todos</option>
+        <option value="pendiente">Pendiente</option>
+        <option value="revisado">Revisado</option>
+        <option value="problema">Problema detectado</option>
+      </select>
+    </div>
+    <div class="col-12 d-flex justify-content-end">
+      <button type="button" class="btn btn-primary" (click)="aplicarFiltros()">Aplicar filtros</button>
+    </div>
+  </form>
+
+  <!-- Tabla de pagos -->
+  @if (pagosFiltrados.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover align-middle">
+        <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Especialista</th>
+            <th>Cliente</th>
+            <th>Monto</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Cambiar estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (pago of pagosFiltrados; track pago.id) {
+            <tr>
+              <td>{{ pago.id }}</td>
+              <td>{{ pago.specialist_name }}</td>
+              <td>{{ pago.client_name }}</td>
+              <td>S/. {{ pago.amount }}</td>
+              <td>{{ pago.created_at | date: 'yyyy-MM-dd' }}</td>
+              <td>
+                <span>
+                  {{ pago.status }}
+                </span>
+              </td>
+              <td>
+                <select class="form-select form-select-sm"
+                        [value]="pago.status"
+                        (change)="cambiarEstadoEvento(pago.id, $event)">
+                  <option value="pendiente">Pendiente</option>
+                  <option value="revisado">Revisado</option>
+                  <option value="problema">Problema detectado</option>
+                </select>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <ng-template #sinPagos>
+      <div class="alert alert-info text-center mt-4">
+        No se encontraron pagos con los filtros seleccionados.
+      </div>
+    </ng-template>
+  }
+</div>

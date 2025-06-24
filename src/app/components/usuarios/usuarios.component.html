@@ -1,0 +1,84 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Gestión de Usuarios</h3>
+
+  <div class="row mb-3">
+    <div class="col-md-3">
+      <select class="form-select" (change)="onRolChangeEvento($event)">
+        <option value="Todos">Todos los roles</option>
+        <option value="Cliente">Cliente</option>
+        <option value="Especialista">Especialista</option>
+        <option value="Admin">Admin</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select class="form-select" (change)="onEstadoChangeEvento($event)">
+        <option value="Todos">Todos los estados</option>
+        <option value="Activo">Activos</option>
+        <option value="Inactivo">Inactivos</option>
+      </select>
+    </div>
+  </div>
+
+  @if (usuariosFiltrados.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Correo</th>
+            <th>Rol</th>
+            <th>Estado</th>
+            <th>Teléfonos</th>
+            <th>Direcciones</th>
+            <th>Documentos</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of usuariosFiltrados; track u.id) {
+            <tr>
+              <td>{{ u.id }}</td>
+              <td>{{ u.first_name }} {{ u.last_name }}</td>
+              <td>{{ u.email }}</td>
+              <td>{{ u.role_name }}</td>
+              <td>
+                <span [class.text-success]="u.status" [class.text-danger]="!u.status">
+                  {{ u.status ? 'Activo' : 'Inactivo' }}
+                </span>
+              </td>
+              <td>
+                <ul class="list-unstyled m-0">
+                  @for (t of u.phones;  track t) {
+                    <li>{{ t }}</li>
+                  }
+                </ul>
+              </td>
+              <td>
+                <ul class="list-unstyled m-0">
+                  @for (d of u.addresses; track d) {
+                    <li>{{ d }}</li>
+                  }
+                </ul>
+              </td>
+              <td>
+                <ul class="list-unstyled m-0">
+                  @for (doc of u.documents; track doc) {
+                    <li>{{ doc }}</li>
+                  }
+                </ul>
+              </td>
+              <td>
+                <button class="btn btn-sm btn-warning" (click)="cambiarEstado(u)">
+                  {{ u.status ? 'Desactivar' : 'Activar' }}
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="alert alert-info text-center">No hay usuarios para mostrar.</div>
+  }
+</div>

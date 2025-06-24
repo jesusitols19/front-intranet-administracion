@@ -14,23 +14,33 @@ export class MisDatosComponent {
   editando = false;
   datosOriginales: any;
 
-
   constructor(private fb: FormBuilder) {
     this.datosForm = this.fb.group({
-      nombre: ['Jesus Alberto Sanchez Paredes'],
-      telefono: ['987654321'],
-      email: ['example@gmail.com'],
-      dni: ['87654321'],
-      fechaNacimiento: ['2000-10-10']
+      nombre: [''],
+      telefono: [''],
+      email: [''],
+      dni: ['']
     });
-    this.datosOriginales = this.datosForm.getRawValue();
+  }
 
+  ngOnInit(): void {
+    const userData = JSON.parse(localStorage.getItem('user_data') || '{}');
+    const nombreCompleto = `${userData.first_name || ''} ${userData.last_name || ''}`;
+
+    this.datosForm.patchValue({
+      nombre: nombreCompleto,
+      telefono: userData.phone_number || '',
+      email: userData.email || '',
+      dni: userData.document_number || ''
+    });
+
+    this.datosOriginales = this.datosForm.getRawValue();
   }
 
   toggleEditar(): void {
     if (this.editando) {
       console.log('Datos actualizados:', this.datosForm.value);
-      this.datosOriginales = this.datosForm.getRawValue(); 
+      this.datosOriginales = this.datosForm.getRawValue();
     }
     this.editando = !this.editando;
   }

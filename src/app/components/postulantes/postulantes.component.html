@@ -6,47 +6,67 @@
 
     <div class="row">
         <div class="table-responsive">
+
+            <select class="form-select mb-3 w-auto" (change)="filtrarEstadoDesdeEvento($event)">
+                <option value="Apto">Apto</option>
+                <option value="No Apto">No Apto</option>
+            </select>
+
+            <div class="text-end mb-2">
+                <button class="btn btn-success" (click)="exportarAExcel()">
+                    <i class="fa fa-file-excel"></i> Exportar a Excel
+                </button>
+            </div>
+
             <table class="table table-striped table-hover table-sm text-center">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>USUARIO</th>
                         <th>NOMBRES</th>
                         <th>APELLIDOS</th>
                         <th>CORREO</th>
-                        <th>CELULAR</th>
-                        <th>DNI</th>
-                        <th>ACCIONES</th>
-                        <th>VER PDF</th>                        
+                        <th>ANÁLISIS</th>
+                        <th>VER PDF</th>
+                        <th>ACCIONES</th>                
                     </tr>
                 </thead>
                 <tbody>
                     @for (postulante  of postulante; track $index) {
                         <tr>
-                            <td>{{ postulante.id }}</td>
-                            <td>{{ postulante.usuario }}</td>
-                            <td>{{ postulante.nombres }}</td>
-                            <td>{{ postulante.apellidos }}</td>
+                            <td>{{ postulante.user_id }}</td>
+                            <td>{{ postulante.first_name }}</td>
+                            <td>{{ postulante.last_name }}</td>
                             
-                            <td>{{ postulante.correo }}</td>
-                            <td>{{ postulante.celular }}</td>
-                            <td>{{ postulante.dni}}</td>
+                            <td>{{ postulante.email }}</td>
+                             
                             <td>
-                                <button class="btn btn-success btn-sm mx-1" title="Aceptar" (click)="aceptarPostulante(postulante.id)">
-                                    <i class="fa fa-check"></i>
-                                </button>
-                                <button class="btn btn-danger btn-sm mx-1" title="Eliminar" (click)="eliminarPostulante(postulante.id)">
-                                    <i class="fa fa-x"></i>
+                                <button 
+                                    class="btn btn-info btn-sm mx-1" 
+                                    title="Ver análisis IA" 
+                                    (click)="verDetalleIA(postulante.cv_id)"
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#detalleIAModal">
+                                    <i class="fa fa-eye"></i>
                                 </button>
                             </td>
+
                             <td>
                                 <button 
                                     class="btn btnBgColor btn-sm mx-1 btn-borde-verde" 
                                     title="Descargar cv PDF" 
-                                    (click)="descargarCV(postulante.cv_ruta)">
+                                    (click)="descargarCV(postulante.file_path)">
                                     Descargar
                                 </button>
-                            </td>  
+                            </td>
+
+                            <td>
+                                <button class="btn btn-success btn-sm mx-1" title="Aceptar" (click)="aceptarPostulante(postulante.user_id)">
+                                    <i class="fa fa-check"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm mx-1" title="Eliminar" (click)="eliminarPostulante(postulante.user_id)">
+                                    <i class="fa fa-x"></i>
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -59,3 +79,27 @@
             }
     </div>
 </div>
+
+
+
+<!-- Modal Bonito con Bootstrap 100% HTML -->
+<div class="modal fade" id="detalleIAModal" tabindex="-1" aria-labelledby="detalleIALabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title" id="detalleIALabel">Análisis del CV por IA</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <p><strong>Postulante:</strong> {{ detalleNombre }}</p>
+        <hr>
+        <p><strong>Resultado IA:</strong></p>
+        <div class="p-3 border rounded bg-light" style="white-space: pre-wrap;">{{ detalleIA }}</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+

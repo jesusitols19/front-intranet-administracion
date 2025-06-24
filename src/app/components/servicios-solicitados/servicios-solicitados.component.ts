@@ -1,56 +1,74 @@
-import { Component } from '@angular/core';
-import { DatePipe } from '@angular/common';
+import { Component, OnInit, inject } from '@angular/core';
+import { HttpClient,HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '../../../environments/environment';
 
-interface Solicitados{
-  id_ServicioSolicitado:number;
-  nombre:string;
-  apellidos: string;
-  tipo_servicio:string;
-  fecha_registro: Date;
-  pdf:string;
+interface Solicitud {
+  id: number;
+  service_name: string;
+  client_name: string;
+  specialist_name: string | null;
+  status: string;
+  acceptance_status: string;
+  requested_at: string;
 }
 
 @Component({
   selector: 'app-servicios-solicitados',
-  imports: [DatePipe],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule,HttpClientModule],
   templateUrl: './servicios-solicitados.component.html',
   styleUrl: './servicios-solicitados.component.css'
 })
 export class ServiciosSolicitadosComponent {
-  titulo: string = 'SERVICIOS SOLICITADOS';
-  
-  solicitados: Solicitados[]=[
-    {
-      id_ServicioSolicitado:1,
-      nombre: 'Carlos',
-      apellidos: 'Pérez Gómez',
-      tipo_servicio:'Gafitero',
-      fecha_registro: new Date('2025-05-20'),
-      pdf:'pdf/carlos.pdf'
-    },
-    {
-      id_ServicioSolicitado:2,
-      nombre: 'Lucía',
-      apellidos: 'Rodríguez Torres',
-      tipo_servicio:'Carpintero',
-      fecha_registro: new Date('2025-05-20'),
-      pdf:'pdf/lucia.pdf'
-    },
-    {
-      id_ServicioSolicitado:3,
-      nombre: 'Marco',
-      apellidos: 'Jiménez Soto',
-      tipo_servicio:'Electricista',
-      fecha_registro: new Date('2025-05-20'),
-      pdf: 'pdf/marco.pdf'
-    }
-  ]
 
-  descargarCV(rutaCV: string): void {
-    const link = document.createElement('a');
-    link.href = rutaCV;
-    link.download = rutaCV.split('/').pop() || 'cv.pdf';
-    link.target = '_blank';
-    link.click();
+  solicitudes: Solicitud[] = [];
+  solicitudesFiltradas: Solicitud[] = [];
+
+  estado = new FormControl('');
+  estadoAceptacion = new FormControl('');
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    this.obtenerSolicitudes();
+  }
+
+  obtenerSolicitudes(): void {
+    this.http.get<Solicitud[]>(`${environment.apiUrl}/admin/solicitudes`).subscribe(data => {
+      this.solicitudes = data;
+      this.solicitudesFiltradas = [...data];
+    });
+  }
+
+  aplicarFiltros(): void {
+    let solicitudes = [...this.solicitudes];
+    if (this.estado.value) {
+      solicitudes = solicitudes.filter(s => s.status === this.estado.value);
+    }
+    if (this.estadoAceptacion.value) {
+      solicitudes = solicitudes.filter(s => s.acceptance_status === this.estadoAceptacion.value);
+    }
+    this.solicitudesFiltradas = solicitudes;
+  }
+
+  cancelarSolicitud(id: number): void {
+    const form = new FormData();
+    form.append('accion', 'cancelar');
+    this.http.put(`${environment.apiUrl}/admin/solicitudes/${id}/accion`, form).subscribe(() => {
+      const solicitud = this.solicitudes.find(s => s.id === id);
+      if (solicitud) solicitud.status = 'Cancelado';
+      this.aplicarFiltros();
+    });
+  }
+
+  reasignarSolicitud(id: number): void {
+    const form = new FormData();
+    form.append('accion', 'reasignar');
+    this.http.put(`${environment.apiUrl}/admin/solicitudes/${id}/accion`, form).subscribe(() => {
+      const solicitud = this.solicitudes.find(s => s.id === id);
+      if (solicitud) solicitud.acceptance_status = 'Pendiente';
+      this.aplicarFiltros();
+    });
   }
 }
