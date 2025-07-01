@@ -1,0 +1,45 @@
+<div class="container mt-4">
+  <h3 class="mb-4">Gestión de Servicios</h3>
+
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <input #nameInput class="form-control" placeholder="Nombre del servicio" />
+    </div>
+    <div class="col-md-4">
+      <input #descriptionInput class="form-control" placeholder="Descripción" />
+    </div>
+    <div class="col-md-4">
+      <button class="btn btn-success" (click)="createService(nameInput.value, descriptionInput.value)">Crear Servicio</button>
+    </div>
+  </div>
+
+  @if (services.length > 0) {
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover text-center">
+        <thead class="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripción</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (service of services; track service.id) {
+            <tr>
+              <td>{{ service.id }}</td>
+              <td>{{ service.name }}</td>
+              <td>{{ service.description }}</td>
+              <td>
+                <button class="btn btn-warning" (click)="updateService(service)">Actualizar</button>
+                <button class="btn btn-danger" (click)="deleteService(service)">Eliminar</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  } @else {
+    <div class="alert alert-info text-center">No hay servicios para mostrar.</div>
+  }
+</div>

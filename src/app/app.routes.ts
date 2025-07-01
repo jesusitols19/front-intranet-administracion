@@ -9,6 +9,7 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { PagosComponent } from './components/pagos/pagos.component';
 import { authGuard } from './guards/auth.guard';
+import { ServiciosComponent } from './components/servicios/servicios.component';
 
 export const routes: Routes = [
     {
@@ -41,6 +42,9 @@ export const routes: Routes = [
             },
             {
                 path:'pagos',component:PagosComponent, title:"Pagos", canActivate: [authGuard]
+            },
+            {
+                path:'servicios',component:ServiciosComponent, title:"Servicios",canActivate: [authGuard]
             }
         ],
         
